@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tunku Stopwatch App</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-r from-blue-400 to-purple-500 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center min-h-screen p-4 transition-colors duration-300">
+    <div class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-lg text-center w-full max-w-md relative overflow-hidden">
+        <div class="absolute top-4 right-4">
+            <button id="darkModeToggle" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors duration-300">
+                <i class="fas fa-moon dark:fas fa-sun"></i>
+            </button>
+        </div>
+        <h1 class="text-4xl font-bold mb-2 text-blue-600 dark:text-blue-400">Tunku</h1>   
+        
+        <h1 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800 dark:text-white">Stopwatch</h1>
+        <div id="display" class="text-4xl sm:text-5xl font-mono mb-6 text-gray-900 dark:text-gray-100">00:00:00:00</div>
+        <div class="space-x-2 sm:space-x-4 mb-6">
+            <button id="startStop" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-sm sm:text-base transition-colors duration-300">
+                Start
+            </button>
+            <button id="reset" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded text-sm sm:text-base transition-colors duration-300">
+                Reset
+            </button>
+        </div>
+        <div class="mb-4">
+            <button id="clearRecords" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded text-sm sm:text-base transition-colors duration-300">
+                Clear Records
+            </button>
+        </div>
+        <div class="overflow-x-auto">
+            <table id="recordsTable" class="w-full">
+                <thead>
+                    <tr>
+                        <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 w-4/5 text-gray-800 dark:text-gray-200">Time</th>
+                        <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 w-1/5 text-gray-800 dark:text-gray-200">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="recordsBody"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="stopwatch.js"></script>
+    <script>
+        // Dark mode toggle functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            updateDarkModeIcon();
+            // Save the theme preference
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+
+        function updateDarkModeIcon() {
+            const icon = darkModeToggle.querySelector('i');
+            if (html.classList.contains('dark')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        // Check user's preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+        updateDarkModeIcon();
+    </script>
+</body>
+</html>
